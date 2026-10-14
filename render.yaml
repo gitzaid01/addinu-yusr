@@ -1,0 +1,44 @@
+# Render Blueprint Specification for Addinu Yusr Platform
+# Learn more: https://render.com/docs/blueprint-spec
+
+services:
+  # -------------------------------------------------------------
+  # 1. Backend REST API (Node.js + Express + MongoDB Atlas)
+  # -------------------------------------------------------------
+  - type: web
+    name: addinu-yusr-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false # Enter your MongoDB Atlas connection string in Render Dashboard
+      - key: JWT_SECRET
+        generateValue: true # Render will automatically generate a cryptographically secure random string
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: FRONTEND_URL
+        sync: false # Set this to your frontend URL (e.g., https://addinu-yusr-web.onrender.com or https://your-site.netlify.app)
+
+  # -------------------------------------------------------------
+  # 2. Frontend Web Client (Next.js 16 App Router)
+  # -------------------------------------------------------------
+  - type: web
+    name: addinu-yusr-web
+    runtime: node
+    plan: free
+    rootDir: client
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        sync: false # Set to your deployed API URL with /api suffix (e.g., https://addinu-yusr-api.onrender.com/api)
