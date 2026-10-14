@@ -10,7 +10,7 @@ services:
     runtime: node
     plan: free
     rootDir: server
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /health
     autoDeploy: true
@@ -34,11 +34,13 @@ services:
     runtime: node
     plan: free
     rootDir: client
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
+      - key: HOSTNAME
+        value: "0.0.0.0"
       - key: NEXT_PUBLIC_API_URL
         sync: false # Set to your deployed API URL with /api suffix (e.g., https://addinu-yusr-api.onrender.com/api)
