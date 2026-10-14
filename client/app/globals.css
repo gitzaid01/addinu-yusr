@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Space+Grotesk:wght@400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Scheherazade+New:wght@400;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #d8ddc6;
+  --foreground: #090c0a;
+}
+
+@theme {
+  --color-brand-bg: #d8ddc6;
+  --color-brand-dark: #090c0a;
+  --color-brand-card: #090c0a;
+  --color-brand-lime: #c5ea31;
+  --color-brand-lime-hover: #b0d624;
+  --color-brand-gray: #161b17;
+  --color-brand-subtle: #242c26;
+  --color-brand-border: #090c0a;
+  --color-brand-muted: #5a655b;
+  --color-brand-cream: #e2e7d3;
+
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-sans: 'Space Grotesk', sans-serif;
+  --font-arabic: 'Scheherazade New', 'Amiri', serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #d8ddc6;
+}
+::-webkit-scrollbar-thumb {
+  background: #090c0a;
+}
