@@ -16,8 +16,38 @@ export interface LoginInput {
   password: string;
 }
 
+export const initAdminUser = async (): Promise<void> => {
+  try {
+    const adminEmail = (process.env.ADMIN_EMAIL || "admin@tawtheeq.edu").trim().toLowerCase();
+    const adminPassword = (process.env.ADMIN_PASSWORD || "AdminPassword123!").trim();
+
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(adminPassword, salt);
+
+    const existing = await User.findOne({ email: adminEmail });
+    if (!existing) {
+      await User.create({
+        name: "Shaykh Al-Admin (Director)",
+        email: adminEmail,
+        passwordHash,
+        role: "ADMIN",
+        phone: "+966500000000",
+      });
+      console.log(`[Database] Initialized default admin user: ${adminEmail}`);
+    } else {
+      existing.role = "ADMIN";
+      existing.passwordHash = passwordHash;
+      await existing.save();
+      console.log(`[Database] Synchronized default admin credentials: ${adminEmail}`);
+    }
+  } catch (err: any) {
+    console.error(`[Database] Error initializing default admin: ${err.message}`);
+  }
+};
+
 export const registerUser = async (input: RegisterInput) => {
-  const existing = await User.findOne({ email: input.email.toLowerCase() });
+  const email = input.email.trim().toLowerCase();
+  const existing = await User.findOne({ email });
   if (existing) {
     const error: any = new Error("User with this email already exists");
     error.statusCode = 409;
@@ -25,14 +55,14 @@ export const registerUser = async (input: RegisterInput) => {
   }
 
   const salt = await bcrypt.genSalt(10);
-  const passwordHash = await bcrypt.hash(input.password, salt);
+  const passwordHash = await bcrypt.hash(input.password.trim(), salt);
 
   const user = await User.create({
-    name: input.name,
-    email: input.email.toLowerCase(),
+    name: input.name.trim(),
+    email,
     passwordHash,
     role: input.role || "STUDENT",
-    phone: input.phone,
+    phone: input.phone?.trim(),
   });
 
   const secret: jwt.Secret = process.env.JWT_SECRET || "tawtheeq_jwt_super_secret_key_1446_ah";
@@ -46,16 +76,19 @@ export const registerUser = async (input: RegisterInput) => {
 };
 
 export const loginUser = async (input: LoginInput) => {
-  const user = await User.findOne({ email: input.email.toLowerCase() });
+  const email = input.email.trim().toLowerCase();
+  const password = input.password.trim();
+
+  const user = await User.findOne({ email });
   if (!user) {
-    const error: any = new Error("Invalid credentials");
+    const error: any = new Error("Invalid credentials - user does not exist");
     error.statusCode = 401;
     throw error;
   }
 
-  const isMatch = await bcrypt.compare(input.password, user.passwordHash);
+  const isMatch = await bcrypt.compare(password, user.passwordHash);
   if (!isMatch) {
-    const error: any = new Error("Invalid credentials");
+    const error: any = new Error("Invalid credentials - incorrect password");
     error.statusCode = 401;
     throw error;
   }
