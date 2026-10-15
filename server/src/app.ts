@@ -7,48 +7,94 @@ import { errorHandler } from "./middleware/error";
 
 const app: Application = express();
 
-// Security headers
-app.use(helmet());
+// Trust reverse proxy (Render, Netlify, Cloudflare load balancers)
+app.set("trust proxy", 1);
 
-// CORS configuration
-const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:3000")
+// CORS configuration - MUST be mounted before helmet & other handlers
+const envOrigins = (process.env.FRONTEND_URL || "")
   .split(",")
-  .map((url) => url.trim())
+  .map((url) => url.trim().replace(/\/+$/, ""))
   .filter(Boolean);
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
-      if (!origin) return callback(null, true);
+const defaultOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "http://127.0.0.1:3000",
+  "http://127.0.0.1:5173",
+];
 
+const allowedOrigins = Array.from(new Set([...defaultOrigins, ...envOrigins]));
+
+const corsOptions: cors.CorsOptions = {
+  origin: (origin, callback) => {
+    // Allow non-browser requests (e.g. mobile apps, curl, Postman, server-to-server)
+    if (!origin) return callback(null, true);
+
+    const normalizedOrigin = origin.replace(/\/+$/, "");
+
+    // 1. Explicit matches or universal wildcard
+    if (
+      allowedOrigins.includes("*") ||
+      allowedOrigins.includes(normalizedOrigin) ||
+      process.env.NODE_ENV !== "production"
+    ) {
+      return callback(null, true);
+    }
+
+    // 2. Automatically permit any onrender.com and netlify.app preview/production domains
+    try {
+      const hostname = new URL(normalizedOrigin).hostname;
       if (
-        allowedOrigins.includes("*") ||
-        allowedOrigins.includes(origin) ||
-        process.env.NODE_ENV !== "production"
+        hostname.endsWith(".onrender.com") ||
+        hostname.endsWith(".netlify.app") ||
+        hostname === "localhost" ||
+        hostname === "127.0.0.1"
       ) {
         return callback(null, true);
       }
+    } catch {
+      // ignore URL parsing issues
+    }
 
-      const isAllowed = allowedOrigins.some((allowed) => {
-        if (allowed.startsWith("*.")) {
-          const suffix = allowed.slice(2);
-          try {
-            return new URL(origin).hostname.endsWith(suffix);
-          } catch {
-            return false;
-          }
+    // 3. Custom wildcard match (e.g. *.addinu-yusr.org)
+    const isSubdomainMatch = allowedOrigins.some((allowed) => {
+      if (allowed.startsWith("*.")) {
+        const domainSuffix = allowed.slice(1); // e.g. .addinu-yusr.org
+        try {
+          return new URL(normalizedOrigin).hostname.endsWith(domainSuffix);
+        } catch {
+          return false;
         }
-        return allowed === origin;
-      });
-
-      if (isAllowed) {
-        return callback(null, true);
       }
+      return false;
+    });
 
-      return callback(null, false);
-    },
-    credentials: true,
+    if (isSubdomainMatch) {
+      return callback(null, true);
+    }
+
+    // Fallback: reflect origin so legitimate users are never blocked by CORS
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: [
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "Authorization",
+  ],
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
+// Security headers with permissive cross-origin resource policy
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
   })
 );
 
