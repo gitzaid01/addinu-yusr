@@ -46,10 +46,12 @@ export default function LoginPage() {
           return;
         }
 
+        const redirectParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("redirect") : null;
+
         if (res.user.role === "ADMIN") {
-          router.push("/admin");
+          router.push(redirectParam || "/admin");
         } else {
-          router.push("/dashboard");
+          router.push(redirectParam || "/dashboard");
         }
       } else {
         const res = await authService.register({
@@ -60,10 +62,12 @@ export default function LoginPage() {
           phone: phone.trim() || undefined,
         });
 
+        const redirectParam = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("redirect") : null;
+
         if (res.user.role === "ADMIN") {
-          router.push("/admin");
+          router.push(redirectParam || "/admin");
         } else {
-          router.push("/dashboard");
+          router.push(redirectParam || "/dashboard");
         }
       }
     } catch (err: any) {
@@ -74,45 +78,45 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#d8ddc6] text-[#090c0a] font-sans antialiased flex flex-col">
+    <div className="min-h-screen bg-[#faf8f5] text-[#14241c] font-sans antialiased flex flex-col selection:bg-[#166236] selection:text-white">
       <TopBanner />
       <Header />
 
-      <div className="bg-[#d8ddc6] border-b-2 border-[#090c0a] px-4 md:px-8 py-2 flex justify-between items-center font-mono text-[11px] text-[#090c0a]">
+      <div className="bg-[#faf8f5] border-b border-[#e6e0d4] px-4 md:px-8 py-3 flex justify-between items-center font-sans text-xs text-gray-700">
         <div className="flex items-center space-x-2">
-          <span>PORTAL GATEWAY // IDENTITY AUTHENTICATION</span>
+          <span className="font-bold text-[#166236]">Student & Faculty Portal // Secure Access</span>
         </div>
-        <div className="text-[10px] text-[#5a655b] font-bold">
-          <span>PROTOCOL: TLS 1.3 // ENCRYPTED</span>
+        <div className="text-[11px] text-gray-500 font-medium">
+          <span>Encrypted Session • TLS 1.3</span>
         </div>
       </div>
 
-      <section className="p-4 md:p-12 flex-1 flex items-center justify-center">
-        <div className="w-full max-w-md border-2 border-[#090c0a] bg-white p-6 md:p-8 shadow-[8px_8px_0px_0px_#090c0a] font-mono">
-          {/* Terminal Banner */}
-          <div className="bg-[#090c0a] text-white p-3 -mx-6 -mt-6 md:-mx-8 md:-mt-8 mb-6 flex justify-between items-center">
-            <span className="font-extrabold text-xs uppercase tracking-wider">
+      <section className="p-4 md:p-12 flex-1 flex items-center justify-center bg-[#faf8f5]">
+        <div className="w-full max-w-md border border-[#e6e0d4] rounded-3xl bg-white p-6 md:p-8 shadow-xs font-sans overflow-hidden">
+          {/* Header Banner */}
+          <div className="bg-[#14241c] text-white p-4 -mx-6 -mt-6 md:-mx-8 md:-mt-8 mb-6 flex justify-between items-center">
+            <span className="font-serif font-bold text-xs uppercase tracking-wider">
               {mode === "LOGIN"
                 ? role === "ADMIN"
-                  ? "ADMIN SCHOLAR AUTHENTICATION"
-                  : "STUDENT PORTAL LOGIN"
-                : "NEW SCHOLAR REGISTRATION"}
+                  ? "Admin Scholar Authentication"
+                  : "Student Portal Login"
+                : "New Student Registration"}
             </span>
-            <span className="bg-[#c5ea31] text-[#090c0a] text-[10px] px-1.5 py-0.5 font-bold">
+            <span className="bg-[#166236] text-white text-[10px] px-2.5 py-0.5 font-bold rounded-full shadow-xs">
               {role}
             </span>
           </div>
 
           {/* Mode Tabs: LOGIN vs REGISTER */}
-          <div className="flex border-2 border-[#090c0a] mb-4">
+          <div className="flex border border-gray-200 rounded-xl p-1 bg-gray-50 mb-4 gap-1">
             <button
               type="button"
               onClick={() => {
                 setMode("LOGIN");
                 setErrorMsg(null);
               }}
-              className={`flex-1 py-2 text-center text-xs font-bold uppercase ${
-                mode === "LOGIN" ? "bg-[#090c0a] text-[#c5ea31]" : "bg-white text-[#090c0a] hover:bg-[#e4e9d3]"
+              className={`flex-1 py-2 text-center text-xs font-bold uppercase transition-all rounded-lg cursor-pointer ${
+                mode === "LOGIN" ? "bg-[#166236] text-white shadow-xs" : "text-gray-600 hover:text-gray-900"
               }`}
             >
               LOGIN
@@ -123,30 +127,30 @@ export default function LoginPage() {
                 setMode("REGISTER");
                 setErrorMsg(null);
               }}
-              className={`flex-1 py-2 text-center text-xs font-bold uppercase ${
-                mode === "REGISTER" ? "bg-[#090c0a] text-[#c5ea31]" : "bg-white text-[#090c0a] hover:bg-[#e4e9d3]"
+              className={`flex-1 py-2 text-center text-xs font-bold uppercase transition-all rounded-lg cursor-pointer ${
+                mode === "REGISTER" ? "bg-[#166236] text-white shadow-xs" : "text-gray-600 hover:text-gray-900"
               }`}
             >
               REGISTER
             </button>
           </div>
 
-          {/* Role Check / Selector Tabs (Available in BOTH Login and Register) */}
+          {/* Role Check / Selector Tabs */}
           <div className="mb-4">
-            <label className="block text-[10px] font-bold text-[#5a655b] uppercase mb-1">
+            <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1.5">
               LOGIN AS / PORTAL ACCESS ROLE
             </label>
-            <div className="flex border-2 border-[#090c0a] divide-x-2 divide-[#090c0a]">
+            <div className="flex border border-gray-200 rounded-xl p-1 bg-gray-50 gap-1">
               <button
                 type="button"
                 onClick={() => {
                   setRole("STUDENT");
                   setErrorMsg(null);
                 }}
-                className={`flex-1 py-2 text-[11px] font-bold uppercase transition-colors ${
+                className={`flex-1 py-2 text-[11px] font-bold uppercase transition-all rounded-lg cursor-pointer ${
                   role === "STUDENT"
-                    ? "bg-[#c5ea31] text-[#090c0a] shadow-inner font-extrabold"
-                    : "bg-white text-[#090c0a] hover:bg-[#f4f7eb]"
+                    ? "bg-[#166236] text-white shadow-xs font-extrabold"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
               >
                 STUDENT
@@ -157,10 +161,10 @@ export default function LoginPage() {
                   setRole("ADMIN");
                   setErrorMsg(null);
                 }}
-                className={`flex-1 py-2 text-[11px] font-bold uppercase transition-colors ${
+                className={`flex-1 py-2 text-[11px] font-bold uppercase transition-all rounded-lg cursor-pointer ${
                   role === "ADMIN"
-                    ? "bg-[#090c0a] text-[#c5ea31] font-extrabold"
-                    : "bg-white text-[#090c0a] hover:bg-[#f4f7eb]"
+                    ? "bg-[#166236] text-white shadow-xs font-extrabold"
+                    : "text-gray-600 hover:text-gray-900"
                 }`}
               >
                 ADMIN SCHOLAR
@@ -170,27 +174,27 @@ export default function LoginPage() {
 
           {/* Admin Helper Box in Login Mode */}
           {role === "ADMIN" && mode === "LOGIN" && (
-            <div className="bg-[#f4f7eb] border-2 border-[#090c0a] p-3 text-[11px] mb-4 space-y-1.5">
+            <div className="bg-emerald-50/60 border border-emerald-200/80 rounded-2xl p-3.5 text-[11px] mb-4 space-y-1.5 shadow-xs">
               <div className="flex justify-between items-center">
-                <span className="font-extrabold text-[#090c0a]">DEFAULT ADMIN CREDENTIALS</span>
+                <span className="font-extrabold text-[#166236]">DEFAULT ADMIN CREDENTIALS</span>
                 <button
                   type="button"
                   onClick={handleFillAdminCredentials}
-                  className="bg-[#c5ea31] hover:bg-[#b5da21] text-[#090c0a] border border-[#090c0a] px-2 py-0.5 text-[10px] font-extrabold cursor-pointer transition-all"
+                  className="bg-[#166236] hover:bg-[#124f2b] text-white rounded-lg px-2.5 py-1 text-[10px] font-extrabold cursor-pointer transition-all shadow-xs"
                 >
                   ⚡ AUTO-FILL
                 </button>
               </div>
-              <div className="text-[10px] text-[#5a655b] leading-tight">
-                Email: <span className="font-bold text-[#090c0a]">admin@tawtheeq.edu</span>
+              <div className="text-[10px] text-gray-600 leading-tight">
+                Email: <span className="font-bold text-gray-900">admin@tawtheeq.edu</span>
                 <br />
-                Password: <span className="font-bold text-[#090c0a]">AdminPassword123!</span>
+                Password: <span className="font-bold text-gray-900">AdminPassword123!</span>
               </div>
             </div>
           )}
 
           {errorMsg && (
-            <div className="bg-red-100 border-2 border-red-800 text-red-900 p-3 text-xs mb-4 font-bold">
+            <div className="bg-red-50 border border-red-200 text-red-800 rounded-xl p-3 text-xs mb-4 font-semibold">
               ⚠️ {errorMsg}
             </div>
           )}
@@ -198,7 +202,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "REGISTER" && (
               <div>
-                <label className="block text-[10px] font-bold text-[#5a655b] uppercase mb-1">
+                <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">
                   FULL NAME
                 </label>
                 <input
@@ -207,13 +211,13 @@ export default function LoginPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="E.g. Zayd Ibn Thabit"
-                  className="w-full bg-[#f9faf7] border-2 border-[#090c0a] p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#c5ea31]"
+                  className="w-full bg-gray-50/60 border border-gray-200 rounded-xl p-3 text-xs text-gray-900 focus:outline-none focus:border-[#166236] focus:ring-2 focus:ring-[#166236]/20 transition-all shadow-xs"
                 />
               </div>
             )}
 
             <div>
-              <label className="block text-[10px] font-bold text-[#5a655b] uppercase mb-1">
+              <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">
                 INSTITUTIONAL EMAIL
               </label>
               <input
@@ -222,12 +226,12 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={role === "ADMIN" ? "admin@tawtheeq.edu" : "student@example.com"}
-                className="w-full bg-[#f9faf7] border-2 border-[#090c0a] p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#c5ea31]"
+                className="w-full bg-gray-50/60 border border-gray-200 rounded-xl p-3 text-xs text-gray-900 focus:outline-none focus:border-[#166236] focus:ring-2 focus:ring-[#166236]/20 transition-all shadow-xs"
               />
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold text-[#5a655b] uppercase mb-1">
+              <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">
                 SECURITY PASSWORD
               </label>
               <input
@@ -236,13 +240,13 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full bg-[#f9faf7] border-2 border-[#090c0a] p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#c5ea31]"
+                className="w-full bg-gray-50/60 border border-gray-200 rounded-xl p-3 text-xs text-gray-900 focus:outline-none focus:border-[#166236] focus:ring-2 focus:ring-[#166236]/20 transition-all shadow-xs"
               />
             </div>
 
             {mode === "REGISTER" && (
               <div>
-                <label className="block text-[10px] font-bold text-[#5a655b] uppercase mb-1">
+                <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">
                   PHONE (OPTIONAL)
                 </label>
                 <input
@@ -250,7 +254,7 @@ export default function LoginPage() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+966 50 000 0000"
-                  className="w-full bg-[#f9faf7] border-2 border-[#090c0a] p-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#c5ea31]"
+                  className="w-full bg-gray-50/60 border border-gray-200 rounded-xl p-3 text-xs text-gray-900 focus:outline-none focus:border-[#166236] focus:ring-2 focus:ring-[#166236]/20 transition-all shadow-xs"
                 />
               </div>
             )}
@@ -258,7 +262,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#c5ea31] text-[#090c0a] border-2 border-[#090c0a] py-3 font-extrabold text-xs uppercase tracking-wider hover:bg-[#b0d624] shadow-[3px_3px_0px_0px_#090c0a] transition-all disabled:opacity-50 cursor-pointer"
+              className="w-full bg-[#166236] text-white rounded-xl py-3.5 font-extrabold text-xs uppercase tracking-wider hover:bg-[#124f2b] shadow-sm hover:shadow-md transition-all disabled:opacity-50 cursor-pointer"
             >
               {loading
                 ? "AUTHENTICATING..."

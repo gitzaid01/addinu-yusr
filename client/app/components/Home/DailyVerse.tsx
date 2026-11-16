@@ -1,81 +1,180 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { contentService } from "@/lib/api";
+
+interface PublishedItem {
+  id?: string;
+  _id?: string;
+  title: string;
+  slug?: string;
+  content: string;
+  type: string;
+  status: string;
+  publishedAt?: string;
+  createdAt?: string;
+  authorId?: {
+    name?: string;
+  };
+}
+
 export default function DailyVerse() {
-  return (
-    <section className="bg-[#d8ddc6] p-4 md:p-8 border-b-2 border-[#090c0a]">
-      {/* Section Header Label */}
-      <div className="flex justify-between items-center mb-3 font-mono text-xs uppercase tracking-wider font-bold">
-        <div className="flex items-center space-x-2">
-          <span className="w-2.5 h-2.5 bg-[#090c0a]"></span>
-          <span>SCRIPTURAL CANON // DAILY DICTION</span>
-        </div>
-        <div className="text-[10px] text-[#5a655b] hidden sm:block">
-          SYNCHRONIZED WITH BULUGH AL-MARAM VOL. III
-        </div>
-      </div>
+  const [items, setItems] = useState<PublishedItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-      {/* Hadith Box Container */}
-      <div className="border-2 border-[#090c0a] bg-[#d8ddc6] shadow-[6px_6px_0px_0px_#090c0a] overflow-hidden">
-        {/* Top bar inside box */}
-        <div className="bg-[#c5ea31] border-b-2 border-[#090c0a] px-4 py-2 flex flex-wrap items-center justify-between font-mono text-xs font-bold text-[#090c0a]">
-          <div className="flex items-center space-x-3">
-            <span className="bg-[#090c0a] text-white px-2 py-0.5 text-[10px] uppercase">
-              DAILY VERIFICATION
-            </span>
-            <span>HADITH #0342 - SAHIH AL-BUKHARI</span>
-          </div>
-          <div className="flex items-center space-x-2 text-[11px]">
-            <span className="w-2 h-2 rounded-full bg-emerald-700"></span>
-            <span>ISNAD VALIDATED • SAHIH</span>
-          </div>
-        </div>
+  useEffect(() => {
+    fetchPublished();
+  }, []);
 
-        {/* Arabic Hadith Text Display */}
-        <div className="p-8 md:p-12 text-center bg-[#e4e9d3] border-b-2 border-[#090c0a]">
-          <p
-            dir="rtl"
-            className="font-arabic text-4xl sm:text-5xl md:text-6xl text-[#090c0a] leading-loose font-bold tracking-wide"
+  const fetchPublished = async () => {
+    try {
+      const data = await contentService.getPublishedContent();
+      if (Array.isArray(data)) {
+        setItems(data);
+      }
+    } catch (err) {
+      console.error("Failed to load admin published content:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const activeItem = items[selectedIndex];
+
+  // Helper to detect Arabic paragraphs for special typography
+  const renderFormattedContent = (text: string) => {
+    if (!text) return null;
+    const paragraphs = text.split("\n\n").filter(Boolean);
+
+    return paragraphs.map((para, idx) => {
+      const hasArabic = /[\u0600-\u06FF]/.test(para);
+
+      if (hasArabic) {
+        return (
+          <div
+            key={idx}
+            className="p-6 sm:p-8 bg-[#faf8f5]/60 border-y border-[#e6e0d4] my-4 rounded-2xl text-left"
           >
-            طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ
-          </p>
-        </div>
-
-        {/* English Translation & References */}
-        <div className="p-6 bg-[#d8ddc6] font-mono">
-          <div className="text-[10px] text-[#5a655b] uppercase font-bold mb-1">
-            AUTHORITATIVE LITERAL TRANSLATION:
+            <p className="font-arabic text-2xl sm:text-3xl md:text-4xl text-[#166236] leading-relaxed font-bold text-left">
+              {para}
+            </p>
           </div>
-          <p className="text-base sm:text-lg text-[#090c0a] font-bold mb-6">
-            &quot;The seeking of sacred knowledge is an obligatory injunction incumbent upon every Muslim.&quot;
-          </p>
+        );
+      }
 
-          {/* Reference Meta Table */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3 bg-[#cdd4b9] border border-[#090c0a] text-[11px] mb-4">
-            <div>
-              <div className="text-[#5a655b] uppercase text-[9px]">CANONICAL SOURCE:</div>
-              <div className="font-bold text-[#090c0a]">Kitab Al-&apos;Ilm (The Book of Knowledge)</div>
-            </div>
-            <div>
-              <div className="text-[#5a655b] uppercase text-[9px]">CANONICAL CITATION:</div>
-              <div className="font-bold text-[#090c0a]">Chapter 4, Description 224</div>
-            </div>
-            <div>
-              <div className="text-[#5a655b] uppercase text-[9px]">VERIFIED ISNAD GRAD:</div>
-              <div className="font-bold text-[#090c0a]">Authentic Mutawatir | Authentic (Al-Albani)</div>
-            </div>
+      return (
+        <p key={idx} className="font-sans text-sm sm:text-base text-gray-700 leading-relaxed mb-4 whitespace-pre-wrap">
+          {para}
+        </p>
+      );
+    });
+  };
+
+  return (
+    <section className="bg-[#faf8f5] p-6 md:p-12 border-b border-[#e6e0d4]">
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header Label */}
+        <div className="flex justify-between items-center mb-6 font-sans text-xs uppercase tracking-wider font-semibold">
+          <div className="flex items-center space-x-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#166236]"></span>
+            <span className="text-[#14241c] font-bold">Admin Publications // Hadith & Sacred Reflections</span>
           </div>
-
-          {/* Action buttons */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center text-xs font-bold uppercase">
-            <button className="border border-[#090c0a] bg-white py-2.5 px-3 hover:bg-[#c5ea31] transition-colors flex items-center justify-center space-x-2">
-              <span>💾 SAVE TO REFERENCE</span>
-            </button>
-            <button className="border border-[#090c0a] bg-white py-2.5 px-3 hover:bg-[#c5ea31] transition-colors flex items-center justify-center space-x-2">
-              <span>🔍 VIEW ISNAD CHAIN (7 TRANSMITTERS)</span>
-            </button>
-            <button className="border border-[#090c0a] bg-white py-2.5 px-3 hover:bg-[#c5ea31] transition-colors flex items-center justify-center space-x-2">
-              <span>💬 DISCUSS ON COMMUNITY BOARD (44)</span>
-            </button>
+          <div className="text-[11px] text-gray-500 hidden sm:block">
+            Official Academy Announcements & Teachings
           </div>
         </div>
+
+        {/* Loading State */}
+        {loading && (
+          <div className="rounded-3xl border border-[#e6e0d4] bg-white p-12 text-center font-sans text-xs text-gray-500 shadow-xs">
+            Loading official published content from administration...
+          </div>
+        )}
+
+        {/* Empty State: Only displays content published by the admin */}
+        {!loading && items.length === 0 && (
+          <div className="rounded-3xl border border-[#e6e0d4] bg-white p-10 sm:p-14 text-center shadow-xs">
+            <div className="w-12 h-12 rounded-full bg-emerald-50 text-[#166236] flex items-center justify-center mx-auto mb-4 border border-emerald-100 text-xl font-serif">
+              ✦
+            </div>
+            <h3 className="font-serif font-bold text-lg text-[#14241c] mb-2">
+              No Content Published Yet
+            </h3>
+            <p className="font-sans text-xs text-gray-600 max-w-md mx-auto mb-6 leading-relaxed">
+              This section strictly displays Hadiths, articles, and reflections published directly by the administrator. Content will appear here once published from the Administrative Console.
+            </p>
+            <Link
+              href="/login"
+              className="inline-flex items-center space-x-2 bg-[#166236] text-white px-5 py-2.5 rounded-xl font-sans text-xs font-bold hover:bg-[#114e2a] transition-all shadow-xs"
+            >
+              <span>Admin Console</span>
+              <span>→</span>
+            </Link>
+          </div>
+        )}
+
+        {/* Dynamic Admin-Published Content Container */}
+        {!loading && activeItem && (
+          <div className="rounded-3xl border border-[#e6e0d4] bg-white shadow-xs overflow-hidden">
+            {/* Top Bar with Badge, Title, Date & Author */}
+            <div className="bg-[#166236] px-6 py-4 flex flex-wrap items-center justify-between font-sans text-xs font-semibold text-white gap-2">
+              <div className="flex items-center space-x-3 flex-wrap">
+                <span className="bg-[#14241c] text-white px-3 py-1 text-[10px] uppercase rounded-full tracking-wider font-bold">
+                  {activeItem.type || "HADITH"}
+                </span>
+                <span className="font-serif text-sm text-emerald-50 font-bold">
+                  {activeItem.title}
+                </span>
+              </div>
+              <div className="flex items-center space-x-3 text-[11px] text-emerald-100">
+                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span>
+                  Published {activeItem.publishedAt ? new Date(activeItem.publishedAt).toLocaleDateString() : "Recently"}
+                </span>
+                <span>•</span>
+                <span>By {activeItem.authorId?.name || "Administration"}</span>
+              </div>
+            </div>
+
+            {/* Content Body */}
+            <div className="p-6 sm:p-10 bg-white">
+              <div className="max-w-4xl mx-auto">
+                {renderFormattedContent(activeItem.content)}
+              </div>
+
+              {/* Multiple Items Selector / Navigation */}
+              {items.length > 1 && (
+                <div className="mt-8 pt-6 border-t border-[#e6e0d4] flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xs font-sans text-gray-500">
+                      Post {selectedIndex + 1} of {items.length}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      type="button"
+                      disabled={selectedIndex === 0}
+                      onClick={() => setSelectedIndex((prev) => Math.max(0, prev - 1))}
+                      className="px-3 py-1.5 rounded-xl border border-[#e6e0d4] text-xs font-semibold text-[#14241c] disabled:opacity-40 hover:bg-[#faf8f5] transition-all cursor-pointer"
+                    >
+                      ← Previous
+                    </button>
+                    <button
+                      type="button"
+                      disabled={selectedIndex === items.length - 1}
+                      onClick={() => setSelectedIndex((prev) => Math.min(items.length - 1, prev + 1))}
+                      className="px-3 py-1.5 rounded-xl border border-[#e6e0d4] text-xs font-semibold text-[#14241c] disabled:opacity-40 hover:bg-[#faf8f5] transition-all cursor-pointer"
+                    >
+                      Next →
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

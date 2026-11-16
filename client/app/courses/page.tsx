@@ -42,151 +42,151 @@ export default function CoursesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#d8ddc6] text-[#090c0a] font-sans antialiased flex flex-col">
+    <div className="min-h-screen bg-[#faf8f5] text-[#14241c] font-sans antialiased flex flex-col selection:bg-[#166236] selection:text-white">
       <TopBanner />
       <Header activeTab="COURSES" />
 
       {/* Page Breadcrumb & Header */}
-      <div className="bg-[#d8ddc6] border-b-2 border-[#090c0a] px-4 md:px-8 py-2 flex flex-wrap justify-between items-center font-mono text-[11px] text-[#090c0a]">
+      <div className="bg-[#faf8f5] border-b border-[#e6e0d4] px-4 md:px-8 py-3 flex flex-wrap justify-between items-center font-sans text-xs text-gray-700">
         <div className="flex items-center space-x-2">
-          <span>INDEX ID: 1446-CAT-008</span>
-          <span>//</span>
-          <span>OFFICIAL ACCREDITATION LEDGER</span>
+          <span className="font-bold text-[#166236]">AY-CAT-008</span>
+          <span className="text-gray-300">//</span>
+          <span className="text-gray-600">Official Curriculum Directory</span>
         </div>
-        <div className="flex items-center space-x-4 text-[10px] text-[#5a655b]">
-          <span>☑ PEER-VERIFIED CURRICULA</span>
-          <span>|</span>
-          <span>ISNAD CRITERIA RATING: A+</span>
+        <div className="flex items-center space-x-4 text-[11px] text-gray-500">
+          <span>✓ Qualified Instructors</span>
+          <span className="text-gray-300">|</span>
+          <span className="font-semibold text-[#166236]">Live Group Classrooms</span>
         </div>
       </div>
 
       {/* Main Title Section */}
-      <section className="p-4 md:p-8 border-b-2 border-[#090c0a] bg-[#d8ddc6]">
+      <section className="p-6 md:p-10 lg:p-12 border-b border-[#e6e0d4] bg-[#faf8f5] max-w-7xl mx-auto w-full">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-8">
           <div>
-            <div className="bg-[#090c0a] text-[#c5ea31] font-mono text-[10px] font-bold px-2 py-0.5 inline-block uppercase mb-3">
-              TWT-REG-01 CENTRAL SCHOLASTIC REGISTRY
+            <div className="bg-[#166236] text-white font-sans text-[10px] font-bold px-3 py-1 inline-block uppercase mb-3 rounded-full shadow-xs">
+              Academic Curriculum
             </div>
-            <h1 className="font-mono font-extrabold text-4xl sm:text-5xl md:text-6xl text-[#090c0a] uppercase tracking-tight leading-none mb-4">
-              ACADEMIC CATALOGUE // ALL COURSES
+            <h1 className="font-serif font-extrabold text-3xl sm:text-5xl md:text-6xl text-[#14241c] tracking-tight leading-none mb-4">
+              Course Catalog & Pathways
             </h1>
-            <p className="font-mono text-sm md:text-base text-[#1a231b] max-w-3xl leading-relaxed">
-              Comprehensive, structured Islamic sciences curricula fetched directly from the institutional database.
+            <p className="font-sans text-sm md:text-base text-gray-600 max-w-3xl leading-relaxed">
+              Explore structured Islamic sciences curricula taught live with dedicated personalized mentorship.
             </p>
           </div>
 
-          {/* Right Calligraphy stamp */}
-          <div className="border-2 border-[#090c0a] bg-white p-4 font-mono text-center shadow-[4px_4px_0px_0px_#090c0a] min-w-[220px]">
-            <p dir="rtl" className="font-arabic text-3xl font-bold text-[#090c0a]">
+          {/* Institutional stamp */}
+          <div className="rounded-3xl border border-[#e6e0d4] bg-white p-5 text-left shadow-xs min-w-[220px]">
+            <p className="font-arabic text-2xl font-bold text-[#166236] text-left">
               رِوَايَةً وَدِرَايَةً
             </p>
-            <p className="text-[9px] font-bold text-[#5a655b] uppercase mt-1">
-              CRITICAL TRANSMISSION & INSIGHT
+            <p className="text-[10px] font-bold text-gray-500 uppercase mt-1">
+              Transmission & Understanding
             </p>
           </div>
         </div>
 
         {/* Search Bar */}
-        <div className="flex flex-col sm:flex-row gap-2 mb-6 font-mono">
+        <div className="flex flex-col sm:flex-row gap-3 font-sans">
           <div className="flex-1 relative">
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="[ SEARCH BY COURSE CODE, TEXT, OR TOPIC (E.G. USUL, RIJAL, AQ-101)... ]"
-              className="w-full bg-white border-2 border-[#090c0a] px-4 py-3.5 text-xs text-[#090c0a] placeholder-[#5a655b] uppercase font-bold focus:outline-none focus:ring-2 focus:ring-[#c5ea31]"
+              placeholder="Search by course title, code, or topic (e.g. Tajweed, Nazrah, Arabic)..."
+              className="w-full bg-white border border-[#e6e0d4] rounded-2xl px-5 py-3.5 text-xs text-[#14241c] placeholder-gray-400 font-medium focus:outline-none focus:border-[#166236] focus:ring-2 focus:ring-[#166236]/20 transition-all shadow-xs"
             />
           </div>
-          <button className="bg-[#c5ea31] text-[#090c0a] border-2 border-[#090c0a] px-8 py-3.5 font-extrabold text-xs uppercase tracking-wider hover:bg-[#b0d624] transition-colors shadow-[3px_3px_0px_0px_#090c0a] flex items-center justify-center space-x-2">
-            <span>[FILTER ARCHIVE]</span>
+          <button className="bg-[#166236] text-white rounded-2xl px-7 py-3.5 font-bold text-xs uppercase tracking-wider hover:bg-[#114e2a] transition-all shadow-xs flex items-center justify-center space-x-2 cursor-pointer">
+            <span>Filter Courses</span>
             <span>☲</span>
           </button>
         </div>
       </section>
 
       {/* Courses Grid */}
-      <section className="p-4 md:p-8 border-b-2 border-[#090c0a] bg-[#d8ddc6] flex-1">
+      <section className="p-6 md:p-10 lg:p-12 border-b border-[#e6e0d4] bg-[#faf8f5] flex-1 max-w-7xl mx-auto w-full">
         {loading ? (
-          <div className="border-2 border-[#090c0a] bg-white p-12 text-center font-mono font-bold text-sm">
-            ⏳ LOADING ACCREDITED COURSES FROM MONGODB...
+          <div className="rounded-3xl border border-[#e6e0d4] bg-white p-12 text-center font-sans font-medium text-sm text-gray-600 shadow-xs">
+            Loading accredited courses from database...
           </div>
         ) : error ? (
-          <div className="border-2 border-red-800 bg-red-100 p-8 text-center font-mono font-bold text-xs text-red-900">
-            ⚠️ {error}
+          <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center font-sans font-semibold text-xs text-red-700">
+            {error}
           </div>
         ) : filteredCourses.length === 0 ? (
-          <div className="border-2 border-[#090c0a] bg-white p-12 text-center font-mono text-xs font-bold text-[#5a655b]">
-            NO COURSES FOUND IN DATABASE LEDGER.
+          <div className="rounded-3xl border border-[#e6e0d4] bg-white p-12 text-center font-sans text-xs text-gray-500 shadow-xs">
+            No courses found matching your search.
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCourses.map((c) => (
               <div
                 key={c.id || c._id}
-                className="border-2 border-[#090c0a] bg-[#d8ddc6] flex flex-col justify-between shadow-[6px_6px_0px_0px_#090c0a]"
+                className="rounded-3xl border border-[#e6e0d4] bg-white flex flex-col justify-between shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-200 overflow-hidden"
               >
                 <div>
                   {/* Header Strip */}
-                  <div className="bg-[#cdd4b9] border-b-2 border-[#090c0a] p-3 flex items-center justify-between font-mono text-xs font-bold">
+                  <div className="bg-[#faf8f5] border-b border-gray-100 p-4 flex items-center justify-between font-sans text-xs font-semibold">
                     <div className="flex items-center space-x-2">
-                      <span className="w-2 h-2 bg-[#090c0a]"></span>
-                      <span>{c.dept || c.category || "DEPARTMENT OF ISLAMIC SCIENCES"}</span>
+                      <span className="w-2 h-2 rounded-full bg-[#166236]"></span>
+                      <span className="truncate max-w-[200px] text-gray-700">{c.dept || c.category || "Islamic Studies"}</span>
                     </div>
-                    <span className="bg-[#090c0a] text-white text-[10px] px-1.5 py-0.5 font-mono">
+                    <span className="bg-[#14241c] text-white text-[10px] px-2.5 py-0.5 rounded-full font-mono">
                       {c.code}
                     </span>
                   </div>
 
                   {/* Arabic Matn Title Box */}
-                  <div className="bg-[#e4e9d3] border-b-2 border-[#090c0a] p-4 relative">
-                    <div className="text-[10px] font-mono text-[#5a655b] uppercase font-bold mb-1">
-                      PRIMARY TEXT
+                  <div className="bg-[#faf8f5]/50 border-b border-gray-100 p-5 relative">
+                    <div className="text-[10px] font-sans text-gray-500 uppercase font-bold mb-1">
+                      Primary Subject
                     </div>
                     {c.primaryText && (
-                      <div dir="rtl" className="font-arabic text-2xl md:text-3xl font-bold text-[#090c0a] my-1">
+                      <div className="font-arabic text-xl md:text-2xl font-bold text-[#166236] my-1 text-left">
                         {c.primaryText}
                       </div>
                     )}
-                    <div className="inline-block text-[10px] font-mono font-bold px-2 py-0.5 border border-[#090c0a] uppercase mt-2 bg-[#c5ea31] text-[#090c0a]">
-                      STATUS: {c.status}
+                    <div className="inline-block text-[10px] font-sans font-bold px-2.5 py-0.5 rounded-full uppercase mt-2 bg-emerald-50 text-emerald-800 border border-emerald-200">
+                      {c.status}
                     </div>
                   </div>
 
                   {/* Course Details */}
-                  <div className="p-5 font-mono">
-                    <h3 className="font-extrabold text-xl text-[#090c0a] uppercase leading-tight mb-3">
+                  <div className="p-6 font-sans">
+                    <h3 className="font-serif font-bold text-xl text-[#14241c] leading-tight mb-3">
                       {c.title}
                     </h3>
-                    <p className="text-xs text-[#242c26] leading-relaxed mb-4">
+                    <p className="text-xs text-gray-600 leading-relaxed mb-4 line-clamp-3">
                       {c.description}
                     </p>
 
                     {/* Lessons & Duration Grid */}
-                    <div className="grid grid-cols-2 divide-x border border-[#090c0a] bg-white text-center text-xs py-2 mb-4">
+                    <div className="grid grid-cols-2 divide-x divide-gray-100 border border-gray-100 rounded-2xl bg-[#faf8f5] text-center text-xs py-3 mb-4">
                       <div>
-                        <div className="text-[9px] text-[#5a655b] uppercase font-bold">LESSONS</div>
-                        <div className="font-extrabold text-sm text-[#090c0a]">{c.totalLessons || 20}</div>
+                        <div className="text-[10px] text-gray-500 uppercase font-semibold">Lessons</div>
+                        <div className="font-bold text-sm text-[#14241c]">{c.totalLessons || 20}</div>
                       </div>
                       <div>
-                        <div className="text-[9px] text-[#5a655b] uppercase font-bold">DURATION</div>
-                        <div className="font-extrabold text-sm text-[#090c0a]">{c.duration || "30 Hours"}</div>
+                        <div className="text-[10px] text-gray-500 uppercase font-semibold">Duration</div>
+                        <div className="font-bold text-sm text-[#14241c]">{c.duration || "30 Hours"}</div>
                       </div>
                     </div>
 
-                    <div className="text-[10px] font-bold text-[#5a655b] flex justify-between border-t border-[#090c0a]/20 pt-2">
-                      <span>LEVEL:</span>
-                      <span className="text-[#090c0a]">{c.level}</span>
+                    <div className="text-[11px] font-medium text-gray-500 flex justify-between border-t border-gray-100 pt-3">
+                      <span>Level:</span>
+                      <span className="text-[#166236] font-bold">{c.level}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Action Button */}
-                <div className="border-t-2 border-[#090c0a] bg-[#cdd4b9] p-3">
+                <div className="border-t border-gray-100 bg-[#faf8f5]/60 p-4">
                   <Link
                     href={`/courses/${c.code?.toLowerCase() || c.id || c._id}`}
-                    className="w-full bg-[#c5ea31] text-[#090c0a] border-2 border-[#090c0a] py-3 text-center font-mono font-extrabold text-xs uppercase tracking-wider hover:bg-[#b0d624] block shadow-[2px_2px_0px_0px_#090c0a]"
+                    className="w-full bg-[#166236] text-white rounded-xl py-3 text-center font-sans font-semibold text-xs tracking-wide hover:bg-[#114e2a] block shadow-xs transition-all"
                   >
-                    VIEW SYLLABUS & DETAILS ↗
+                    View Syllabus & Enroll →
                   </Link>
                 </div>
               </div>

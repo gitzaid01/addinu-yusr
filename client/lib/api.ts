@@ -129,6 +129,8 @@ export const courseService = {
 export const enrollmentService = {
   adminEnrollStudent: async (studentId: string, courseId: string) =>
     apiFetch("/admin/enrollments", { method: "POST", body: JSON.stringify({ studentId, courseId }) }),
+  studentEnroll: async (courseId: string) =>
+    apiFetch("/student/enrollments", { method: "POST", body: JSON.stringify({ courseId }) }),
   getAdminEnrollments: async () => apiFetch("/admin/enrollments"),
   updateEnrollment: async (id: string, data: { status: string; progress?: number }) =>
     apiFetch(`/admin/enrollments/${id}`, { method: "PATCH", body: JSON.stringify(data) }),
