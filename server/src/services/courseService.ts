@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Course, ICourse, CourseStatus } from "../models/Course";
 import { Enrollment } from "../models/Enrollment";
 
@@ -25,7 +26,21 @@ export const createCourse = async (data: Partial<ICourse>, adminId: string) => {
 };
 
 export const updateCourse = async (id: string, updates: Partial<ICourse>) => {
-  const course = await Course.findById(id);
+  let course: any = null;
+  if (mongoose.isValidObjectId(id)) {
+    course = await Course.findById(id);
+  }
+  if (!course) {
+    course = await Course.findOne({
+      $or: [
+        { code: id.toUpperCase() },
+        { code: id },
+        { slug: id.toLowerCase() },
+        { slug: id },
+      ],
+    });
+  }
+
   if (!course) {
     const error: any = new Error("Course not found");
     error.statusCode = 404;
@@ -57,7 +72,20 @@ export const archiveCourse = async (id: string) => {
 };
 
 export const deleteCourse = async (id: string) => {
-  const course = await Course.findByIdAndDelete(id);
+  let course: any = null;
+  if (mongoose.isValidObjectId(id)) {
+    course = await Course.findByIdAndDelete(id);
+  } else {
+    course = await Course.findOneAndDelete({
+      $or: [
+        { code: id.toUpperCase() },
+        { code: id },
+        { slug: id.toLowerCase() },
+        { slug: id },
+      ],
+    });
+  }
+
   if (!course) {
     const error: any = new Error("Course not found");
     error.statusCode = 404;
@@ -76,9 +104,23 @@ export const getPublicCourses = async () => {
 };
 
 export const getCourseByIdForUser = async (courseId: string, userId?: string, role?: string) => {
-  let course = await Course.findById(courseId);
+  let course: any = null;
+
+  // 1. Try finding by MongoDB ObjectId if valid
+  if (mongoose.isValidObjectId(courseId)) {
+    course = await Course.findById(courseId);
+  }
+
+  // 2. If not found by ObjectId, search by code (case-insensitive) or slug
   if (!course) {
-    course = await Course.findOne({ code: courseId.toUpperCase() });
+    course = await Course.findOne({
+      $or: [
+        { code: courseId.toUpperCase() },
+        { code: courseId },
+        { slug: courseId.toLowerCase() },
+        { slug: courseId },
+      ],
+    });
   }
 
   if (!course) {

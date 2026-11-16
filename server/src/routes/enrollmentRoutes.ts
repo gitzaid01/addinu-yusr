@@ -11,6 +11,8 @@ router.get("/admin/enrollments", requireAuth, requireAdmin, enrollmentController
 router.patch("/admin/enrollments/:id", requireAuth, requireAdmin, enrollmentController.updateEnrollment);
 
 // Student Enrollment routes
+router.post("/student/enrollments", requireAuth, requireStudent, enrollmentController.studentEnrollCourse);
+router.post("/courses/:courseId/enroll", requireAuth, requireStudent, enrollmentController.studentEnrollCourse);
 router.get("/student/enrollments", requireAuth, requireStudent, enrollmentController.getStudentEnrollments);
 router.get("/student/enrollments/:id", requireAuth, requireStudent, enrollmentController.getStudentEnrollmentById);
 

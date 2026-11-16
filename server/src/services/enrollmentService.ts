@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Enrollment, IEnrollment, EnrollmentStatus } from "../models/Enrollment";
 import { Course } from "../models/Course";
 import { User } from "../models/User";
@@ -10,14 +11,28 @@ export const enrollStudent = async (studentId: string, courseId: string) => {
     throw error;
   }
 
-  const course = await Course.findById(courseId);
+  let course: any = null;
+  if (mongoose.isValidObjectId(courseId)) {
+    course = await Course.findById(courseId);
+  }
+  if (!course) {
+    course = await Course.findOne({
+      $or: [
+        { code: courseId.toUpperCase() },
+        { code: courseId },
+        { slug: courseId.toLowerCase() },
+        { slug: courseId },
+      ],
+    });
+  }
+
   if (!course) {
     const error: any = new Error("Course not found");
     error.statusCode = 404;
     throw error;
   }
 
-  const existing = await Enrollment.findOne({ studentId, courseId });
+  const existing = await Enrollment.findOne({ studentId, courseId: course._id });
   if (existing) {
     const error: any = new Error("Student is already enrolled in this course");
     error.statusCode = 409;

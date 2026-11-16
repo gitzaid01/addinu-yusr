@@ -6,11 +6,19 @@ export interface CustomError extends Error {
 }
 
 export const errorHandler = (
-  err: CustomError,
+  err: any,
   _req: Request,
   res: Response,
   _next: NextFunction
 ): void => {
+  if (err.name === "CastError") {
+    res.status(404).json({
+      success: false,
+      message: `Resource not found with identifier: ${err.value}`,
+    });
+    return;
+  }
+
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
 

@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-export type ContentType = "ARTICLE" | "THOUGHT" | "ANNOUNCEMENT";
+export type ContentType = "ARTICLE" | "THOUGHT" | "ANNOUNCEMENT" | "HADITH";
 export type ContentStatus = "DRAFT" | "PUBLISHED";
 
 export interface IAdminContent extends Document {
@@ -20,7 +20,7 @@ const AdminContentSchema = new Schema<IAdminContent>(
     title: { type: String, required: true, trim: true },
     slug: { type: String, required: true, unique: true, lowercase: true, trim: true },
     content: { type: String, required: true },
-    type: { type: String, enum: ["ARTICLE", "THOUGHT", "ANNOUNCEMENT"], required: true },
+    type: { type: String, enum: ["ARTICLE", "THOUGHT", "ANNOUNCEMENT", "HADITH"], required: true },
     status: { type: String, enum: ["DRAFT", "PUBLISHED"], default: "DRAFT" },
     authorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     publishedAt: { type: Date },

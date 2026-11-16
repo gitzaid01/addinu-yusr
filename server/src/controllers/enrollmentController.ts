@@ -12,6 +12,21 @@ export const adminEnrollStudent = async (req: AuthRequest, res: Response, next: 
   }
 };
 
+export const studentEnrollCourse = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const studentId = req.user!.userId;
+    const courseId = req.body.courseId || req.params.courseId;
+    if (!courseId) {
+      res.status(400).json({ success: false, message: "Course identifier is required" });
+      return;
+    }
+    const enrollment = await enrollmentService.enrollStudent(studentId, courseId);
+    res.status(201).json({ success: true, data: enrollment, message: "Successfully enrolled in course" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getAdminEnrollments = async (_req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const enrollments = await enrollmentService.getAllEnrollmentsAdmin();
