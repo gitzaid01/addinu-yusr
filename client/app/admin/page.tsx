@@ -572,11 +572,14 @@ export default function AdminPage() {
                     className="w-full bg-gray-50/60 border border-gray-200 rounded-xl p-2.5 font-bold focus:outline-none focus:border-[#166236] focus:ring-2 focus:ring-[#166236]/20 transition-all"
                   >
                     <option value="">-- Select Student --</option>
-                    {students.map((s) => (
-                      <option key={s._id} value={s._id}>
-                        {s.name} ({s.email})
-                      </option>
-                    ))}
+                    {students.map((s, idx) => {
+                      const studentId = s._id || s.id || `student-${idx}`;
+                      return (
+                        <option key={studentId} value={s._id || s.id || ""}>
+                          {s.name} ({s.email})
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
 
@@ -589,11 +592,14 @@ export default function AdminPage() {
                     className="w-full bg-gray-50/60 border border-gray-200 rounded-xl p-2.5 font-bold focus:outline-none focus:border-[#166236] focus:ring-2 focus:ring-[#166236]/20 transition-all"
                   >
                     <option value="">-- Select Course --</option>
-                    {courses.map((c) => (
-                      <option key={c._id || c.id} value={c._id || c.id}>
-                        {c.code} - {c.title}
-                      </option>
-                    ))}
+                    {courses.map((c, idx) => {
+                      const courseId = c._id || c.id || `course-${idx}`;
+                      return (
+                        <option key={courseId} value={c._id || c.id || ""}>
+                          {c.code} - {c.title}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
 
@@ -626,11 +632,14 @@ export default function AdminPage() {
                     className="w-full bg-gray-50/60 border border-gray-200 rounded-xl p-2.5 font-bold focus:outline-none focus:border-[#166236] focus:ring-2 focus:ring-[#166236]/20 transition-all"
                   >
                     <option value="">-- Select Course --</option>
-                    {courses.map((c) => (
-                      <option key={c._id || c.id} value={c._id || c.id}>
-                        {c.code} - {c.title}
-                      </option>
-                    ))}
+                    {courses.map((c, idx) => {
+                      const courseId = c._id || c.id || `course-${idx}`;
+                      return (
+                        <option key={courseId} value={c._id || c.id || ""}>
+                          {c.code} - {c.title}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
 
@@ -643,11 +652,14 @@ export default function AdminPage() {
                     className="w-full bg-gray-50/60 border border-gray-200 rounded-xl p-2.5 font-bold focus:outline-none focus:border-[#166236] focus:ring-2 focus:ring-[#166236]/20 transition-all"
                   >
                     <option value="">-- Select Student --</option>
-                    {students.map((s) => (
-                      <option key={s._id} value={s._id}>
-                        {s.name} ({s.email})
-                      </option>
-                    ))}
+                    {students.map((s, idx) => {
+                      const studentId = s._id || s.id || `student-${idx}`;
+                      return (
+                        <option key={studentId} value={s._id || s.id || ""}>
+                          {s.name} ({s.email})
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
 
@@ -704,11 +716,14 @@ export default function AdminPage() {
                   className="w-full bg-gray-50/60 border border-gray-200 rounded-xl p-3 text-xs font-bold focus:outline-none focus:border-[#166236] focus:ring-2 focus:ring-[#166236]/20 transition-all"
                 >
                   <option value="">-- Choose Course to View Enrolled Students & Attendance --</option>
-                  {courses.map((c) => (
-                    <option key={c._id || c.id} value={c._id || c.id}>
-                      {c.code}: {c.title}
-                    </option>
-                  ))}
+                  {courses.map((c, idx) => {
+                    const courseId = c._id || c.id || `course-filter-${idx}`;
+                    return (
+                      <option key={courseId} value={c._id || c.id || ""}>
+                        {c.code}: {c.title}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
 
@@ -724,17 +739,20 @@ export default function AdminPage() {
                       <div className="text-xs text-gray-500 py-4">No students enrolled in this course yet.</div>
                     ) : (
                       <div className="divide-y divide-gray-200/60 text-xs">
-                        {selectedCourseEnrolledStudents.map((item: any) => (
-                          <div key={item._id} className="py-2.5 flex justify-between items-center">
-                            <div>
-                              <div className="font-bold text-gray-900">{item.studentId?.name || "Student"}</div>
-                              <div className="text-[11px] text-gray-500">{item.studentId?.email}</div>
+                        {selectedCourseEnrolledStudents.map((item: any, idx: number) => {
+                          const itemId = item._id || item.id || `enrolled-${idx}`;
+                          return (
+                            <div key={itemId} className="py-2.5 flex justify-between items-center">
+                              <div>
+                                <div className="font-bold text-gray-900">{item.studentId?.name || "Student"}</div>
+                                <div className="text-[11px] text-gray-500">{item.studentId?.email}</div>
+                              </div>
+                              <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] font-bold px-2.5 py-1 rounded-full">
+                                {item.status} ({item.progress}%)
+                              </span>
                             </div>
-                            <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] font-bold px-2.5 py-1 rounded-full">
-                              {item.status} ({item.progress}%)
-                            </span>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     )}
                   </div>
@@ -749,25 +767,28 @@ export default function AdminPage() {
                       <div className="text-xs text-gray-500 py-4">No attendance marked for this course yet.</div>
                     ) : (
                       <div className="divide-y divide-gray-200/60 text-xs">
-                        {selectedCourseAttendance.map((att: any) => (
-                          <div key={att._id} className="py-2 flex justify-between items-center">
-                            <div>
-                              <div className="font-bold text-gray-900">{att.studentId?.name || "Student"}</div>
-                              <div className="text-[11px] text-gray-500">{new Date(att.date).toLocaleDateString()}</div>
+                        {selectedCourseAttendance.map((att: any, idx: number) => {
+                          const attId = att._id || att.id || `att-${idx}`;
+                          return (
+                            <div key={attId} className="py-2 flex justify-between items-center">
+                              <div>
+                                <div className="font-bold text-gray-900">{att.studentId?.name || "Student"}</div>
+                                <div className="text-[11px] text-gray-500">{new Date(att.date).toLocaleDateString()}</div>
+                              </div>
+                              <span
+                                className={`px-2.5 py-1 text-[10px] font-bold rounded-full ${
+                                  att.status === "PRESENT"
+                                    ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                                    : att.status === "ABSENT"
+                                    ? "bg-red-50 text-red-800 border border-red-200"
+                                    : "bg-gray-100 text-gray-700 border border-gray-200"
+                                }`}
+                              >
+                                {att.status}
+                              </span>
                             </div>
-                            <span
-                              className={`px-2.5 py-1 text-[10px] font-bold rounded-full ${
-                                att.status === "PRESENT"
-                                  ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-                                  : att.status === "ABSENT"
-                                  ? "bg-red-50 text-red-800 border border-red-200"
-                                  : "bg-gray-100 text-gray-700 border border-gray-200"
-                              }`}
-                            >
-                              {att.status}
-                            </span>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     )}
                   </div>
@@ -799,11 +820,14 @@ export default function AdminPage() {
                     className="w-full bg-gray-50/60 border border-gray-200 rounded-xl p-2.5 font-bold focus:outline-none focus:border-[#166236] focus:ring-2 focus:ring-[#166236]/20 transition-all"
                   >
                     <option value="">-- Select Student --</option>
-                    {students.map((s) => (
-                      <option key={s._id} value={s._id}>
-                        {s.name} ({s.email})
-                      </option>
-                    ))}
+                    {students.map((s, idx) => {
+                      const studentId = s._id || s.id || `student-${idx}`;
+                      return (
+                        <option key={studentId} value={s._id || s.id || ""}>
+                          {s.name} ({s.email})
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
 
@@ -816,11 +840,14 @@ export default function AdminPage() {
                     className="w-full bg-gray-50/60 border border-gray-200 rounded-xl p-2.5 font-bold focus:outline-none focus:border-[#166236] focus:ring-2 focus:ring-[#166236]/20 transition-all"
                   >
                     <option value="">-- Select Course --</option>
-                    {courses.map((c) => (
-                      <option key={c._id || c.id} value={c._id || c.id}>
-                        {c.code} - {c.title}
-                      </option>
-                    ))}
+                    {courses.map((c, idx) => {
+                      const courseId = c._id || c.id || `course-${idx}`;
+                      return (
+                        <option key={courseId} value={c._id || c.id || ""}>
+                          {c.code} - {c.title}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
 

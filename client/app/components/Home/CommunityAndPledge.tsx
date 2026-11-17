@@ -8,7 +8,6 @@ export default function CommunityAndPledge() {
             {/* Header info */}
             <div className="flex justify-between items-center text-xs font-sans text-emerald-200/80 border-b border-emerald-900 pb-3 mb-6">
               <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
                 <span>Student Community Forum // Academic Discussion</span>
               </div>
               <span className="text-emerald-300/60">Thread #4482</span>
@@ -49,10 +48,15 @@ export default function CommunityAndPledge() {
             <div className="text-emerald-200/70 text-xs">
               <span>Community of seekers across 20+ countries</span>
             </div>
-            <button className="bg-[#166236] text-white px-5 py-2.5 rounded-xl font-bold uppercase hover:bg-[#114e2a] transition-all shadow-xs flex items-center space-x-2 cursor-pointer">
-              <span>View Discussions</span>
+            <a
+              href="https://whatsapp.com/channel/0029VbAuHQYGZND0ODsmGm1O"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#166236] text-white px-5 py-2.5 rounded-xl font-bold uppercase hover:bg-[#114e2a] transition-all shadow-xs flex items-center space-x-2 cursor-pointer"
+            >
+              <span>Join WhatsApp Channel</span>
               <span>→</span>
-            </button>
+            </a>
           </div>
         </div>
 

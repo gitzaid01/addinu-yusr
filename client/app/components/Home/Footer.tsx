@@ -14,7 +14,6 @@ export default function Footer() {
             An institutional learning platform dedicated to structured sacred knowledge: Qur&apos;anic recitation, Tajweed, Arabic language, Seerah, Taharah, and live interactive group classrooms.
           </p>
           <div className="text-[10px] font-bold uppercase text-gray-500 flex items-center space-x-2">
-            <span className="w-2 h-2 rounded-full bg-[#166236]"></span>
             <span>ACADEMIC PORTAL V.2.0</span>
           </div>
         </div>
@@ -72,11 +71,46 @@ export default function Footer() {
         <div className="p-6 md:p-8 flex flex-col justify-between">
           <div>
             <div className="text-[11px] font-bold text-gray-500 uppercase mb-4 tracking-wider">
-              Sacred Learning
+              Sacred Learning & Support
             </div>
-            <p className="text-xs text-gray-600 leading-relaxed mb-4 font-sans">
+            <p className="text-xs text-gray-600 leading-relaxed mb-3 font-sans">
               Seeking authentic sacred knowledge with sincerity, accuracy, and dedicated mentorship for students of all ages.
             </p>
+            <div className="space-y-2 pt-1 font-sans text-xs">
+              <div>
+                <a
+                  href="tel:+966504781226"
+                  className="inline-flex items-center space-x-1.5 text-[#166236] hover:underline font-bold"
+                >
+                  <svg className="w-3.5 h-3.5 text-[#166236]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.21 2.2z" />
+                  </svg>
+                  <span>Direct Call: +966 50 478 1226</span>
+                </a>
+              </div>
+              <div>
+                <a
+                  href="https://wa.me/918171432372"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-1.5 text-[#166236] hover:underline font-semibold"
+                >
+                  <span>WhatsApp: +91 8171432372</span>
+                  <span>↗</span>
+                </a>
+              </div>
+              <div>
+                <a
+                  href="https://whatsapp.com/channel/0029VbAuHQYGZND0ODsmGm1O"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-1.5 text-[#128C7E] hover:underline font-semibold"
+                >
+                  <span>Official WhatsApp Channel</span>
+                  <span>↗</span>
+                </a>
+              </div>
+            </div>
           </div>
 
           <div className="text-left pt-4">

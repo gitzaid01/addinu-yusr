@@ -160,8 +160,8 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-sans">
           {data?.currentCourses?.length > 0 ? (
-            data.currentCourses.map((c: any) => (
-              <div key={c.courseId} className="rounded-3xl border border-[#e6e0d4] bg-white shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between overflow-hidden">
+            data.currentCourses.map((c: any, idx: number) => (
+              <div key={c.courseId || c.id || c._id || `course-${idx}`} className="rounded-3xl border border-[#e6e0d4] bg-white shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between overflow-hidden">
                 <div>
                   <div className="bg-[#faf8f5] border-b border-gray-100 p-4 flex justify-between items-center text-xs font-semibold">
                     <span className="text-[#14241c] font-mono">Code: {c.code}</span>
@@ -242,8 +242,8 @@ export default function DashboardPage() {
 
           <div className="rounded-3xl border border-[#e6e0d4] bg-white divide-y divide-gray-100 shadow-xs overflow-hidden text-xs">
             {data?.recentActivity?.length > 0 ? (
-              data.recentActivity.map((act: any) => (
-                <div key={act.id} className="p-4 flex items-start space-x-3 hover:bg-[#faf8f5] transition-colors">
+              data.recentActivity.map((act: any, idx: number) => (
+                <div key={act.id || act._id || `activity-${idx}`} className="p-4 flex items-start space-x-3 hover:bg-[#faf8f5] transition-colors">
                   <div className="w-7 h-7 bg-emerald-50 text-[#166236] rounded-full flex items-center justify-center font-bold text-xs mt-0.5">
                     ★
                   </div>

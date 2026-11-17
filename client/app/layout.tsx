@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import WhatsAppFloating from '@/app/components/WhatsAppFloating';
 
 export const metadata: Metadata = {
   title: 'Addinu Yusr // Classical & Contemporary Islamic Scholarship',
@@ -14,9 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased bg-[#faf8f5] text-[#14241c] selection:bg-[#166236] selection:text-white">
+      <body className="antialiased bg-[#faf8f5] text-[#14241c] selection:bg-[#166236] selection:text-white relative">
         <main>{children}</main>
+        <WhatsAppFloating />
       </body>
     </html>
   );
-}
+}

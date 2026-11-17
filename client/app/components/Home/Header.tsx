@@ -40,7 +40,7 @@ export default function Header({ activeTab }: HeaderProps) {
               <img src="/logo.jpg" alt="Addinu Yusr Logo" className="w-full h-full object-cover" />
             </div>
             <div>
-              <div className="font-serif font-bold text-sm tracking-wider uppercase leading-none text-[#14241c]">
+              <div className="font-serif font-bold text-sm tracking-normal uppercase leading-none text-[#14241c]">
                 ADDINU YUSR INSTITUTE
               </div>
               <div className="text-[10px] font-arabic text-[#166236] mt-0.5 leading-none">
@@ -126,7 +126,18 @@ export default function Header({ activeTab }: HeaderProps) {
         </nav>
 
         {/* Desktop Action Controls & User Info */}
-        <div className="hidden md:flex items-center border-l border-[#e6e0d4] px-4">
+        <div className="hidden md:flex items-center border-l border-[#e6e0d4] px-4 space-x-3">
+          {/* <a
+            href="tel:+966504781226"
+            className="flex items-center space-x-1.5 text-xs font-semibold text-[#166236] hover:text-[#114e2a] px-3.5 py-2 rounded-xl border border-[#e6e0d4] bg-white hover:bg-stone-50 transition-colors shadow-2xs group"
+            title="Direct Call to Addinu Yusr"
+          >
+            <svg className="w-3.5 h-3.5 text-[#166236] group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.21 2.2z" />
+            </svg>
+            <span>Call: <strong className="font-bold">+966 50 478 1226</strong></span>
+          </a> */}
+
           {user ? (
             <div className="flex items-center space-x-2">
               <Link
@@ -220,6 +231,21 @@ export default function Header({ activeTab }: HeaderProps) {
             <span>COMMUNITY FORUM</span>
             <span>↗</span>
           </Link>
+
+          {/* Direct Phone Call in Mobile Menu */}
+          {/* <a
+            href="tel:+966504781226"
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-3 rounded-xl flex items-center justify-between bg-emerald-50 text-[#166236] border border-emerald-200 hover:bg-emerald-100 transition-all font-bold shadow-2xs"
+          >
+            <div className="flex items-center space-x-2">
+              <svg className="w-4 h-4 text-[#166236]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.21 2.2z" />
+              </svg>
+              <span>DIRECT CALL: +966 50 478 1226</span>
+            </div>
+            <span>📞</span>
+          </a> */}
 
           {/* User actions in mobile dropdown */}
           <div className="pt-2">

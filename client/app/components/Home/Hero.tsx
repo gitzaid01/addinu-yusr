@@ -55,7 +55,6 @@ export default function Hero() {
               href="/login"
               className="bg-white/90 text-[#14241c] border border-[#e6e0d4] rounded-2xl px-7 py-4 font-sans font-semibold text-sm hover:bg-white hover:border-[#166236]/40 transition-all flex items-center justify-center space-x-2 shadow-xs hover:shadow-md hover:-translate-y-0.5 duration-200"
             >
-              <span>🔒</span>
               <span>Student Portal Login</span>
             </Link>
           </div>

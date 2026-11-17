@@ -43,7 +43,6 @@ export default function StatsStrip() {
               {/* Header info */}
               <div className="flex justify-between items-center text-[11px] font-sans font-medium text-gray-500 mb-4">
                 <span>FACULTY PILLAR // {stat.index}</span>
-                <span className="w-2 h-2 rounded-full bg-[#166236]"></span>
               </div>
 
               {/* Value */}

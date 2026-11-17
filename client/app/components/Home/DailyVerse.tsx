@@ -78,7 +78,6 @@ export default function DailyVerse() {
         {/* Section Header Label */}
         <div className="flex justify-between items-center mb-6 font-sans text-xs uppercase tracking-wider font-semibold">
           <div className="flex items-center space-x-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#166236]"></span>
             <span className="text-[#14241c] font-bold">Admin Publications // Hadith & Sacred Reflections</span>
           </div>
           <div className="text-[11px] text-gray-500 hidden sm:block">
@@ -129,7 +128,6 @@ export default function DailyVerse() {
                 </span>
               </div>
               <div className="flex items-center space-x-3 text-[11px] text-emerald-100">
-                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
                 <span>
                   Published {activeItem.publishedAt ? new Date(activeItem.publishedAt).toLocaleDateString() : "Recently"}
                 </span>

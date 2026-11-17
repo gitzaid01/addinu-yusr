@@ -196,7 +196,6 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
             {course.meetingLink && (
               <div className="bg-[#166236] text-white rounded-2xl p-4 font-sans font-bold text-xs shadow-xs mb-4">
                 <div className="flex items-center space-x-2 mb-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
                   <span>Enrolled Live Classroom Access:</span>
                 </div>
                 <a

@@ -29,6 +29,15 @@ export default function AdmissionsCta() {
             >
               Browse All Courses
             </Link>
+            <a
+              href="tel:+966504781226"
+              className="bg-emerald-900/60 hover:bg-emerald-900/90 text-white border border-emerald-400/40 rounded-2xl py-3.5 px-6 font-sans font-bold text-xs tracking-wide transition-all text-center backdrop-blur-xs cursor-pointer flex items-center justify-center space-x-2 shadow-xs group"
+            >
+              <svg className="w-4 h-4 text-emerald-300 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.21 2.2z" />
+              </svg>
+              <span>Direct Call: +966 50 478 1226</span>
+            </a>
             <Link
               href="/login"
               className="bg-white/10 text-white border border-white/25 rounded-2xl py-3.5 px-6 font-sans font-semibold text-xs tracking-wide hover:bg-white/20 transition-all text-center backdrop-blur-xs cursor-pointer"
